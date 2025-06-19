@@ -14,6 +14,8 @@ from PyQt5.QtWidgets import QApplication
 
 import lib_func
 
+__version__ = '1.0'
+
 # Constants for NR characters names
 LIST_CHAR_NAME_FOR_COMBOBOX = [
     '复仇者 Revenant',
@@ -140,6 +142,8 @@ DICT_CHAR_NAME_CHN = dict(zip(LIST_CHAR_NAME_FOR_COMBOBOX, LIST_CHAR_NAME_CHN))
 DICT_CHAR_NAME_ENG = dict(zip(LIST_CHAR_NAME_FOR_COMBOBOX, LIST_CHAR_NAME_ENG))
 
 # Main window class
+
+
 class Ui(QtWidgets.QMainWindow):
 
     def __init__(self, str_path_file_ui):
@@ -162,8 +166,13 @@ class Ui(QtWidgets.QMainWindow):
         # Load UI file
         uic.loadUi(str_path_file_ui, self)
 
+        self.lbl_version.setText('Version: ' + str(__version__))
+
         # Load NR character list to the dropdown
         self.cBox_base_char.addItems(LIST_CHAR_NAME_FOR_COMBOBOX)
+
+        # Set checkboxes text
+        self.fillChkbox()
 
         # Button connections
         self.btn_browse_dir_base_chr.clicked.connect(
@@ -182,17 +191,65 @@ class Ui(QtWidgets.QMainWindow):
             )
         )
 
+        self.chk_all.stateChanged.connect(self.updateCharChkbox)
+
         self.btn_rename.clicked.connect(self.replicate)
 
         self.show()
 
+    def getCharChkbox(self):
+        '''
+        '''
 
-    def listNewFilename(
-            self,
-            list_str_filepath_old,
-            list_char_ID_old, list_char_ID_new,
-            str_char_new, str_path_dir_output
-        ):
+        list_chk_box = [
+            self.chk_char01,
+            self.chk_char02,
+            self.chk_char03,
+            self.chk_char04,
+            self.chk_char05,
+            self.chk_char06,
+            self.chk_char07,
+            self.chk_char08
+        ]
+
+        return list_chk_box
+
+    def fillChkbox(self):
+        '''
+        '''
+
+        self.chk_all.setText('All characters\n所有角色')
+
+        list_chk_box = self.getCharChkbox()
+
+        for i, j in zip(list_chk_box, LIST_CHAR_NAME_FOR_COMBOBOX):
+
+            i.setText(j)
+
+    def updateCharChkbox(self):
+        '''
+        '''
+
+        list_chk_box = self.getCharChkbox()
+
+        if self.chk_all.isChecked():
+
+            for i in list_chk_box:
+
+                i.setEnabled(False)
+
+        else:
+
+            for i in list_chk_box:
+
+                i.setEnabled(True)
+
+    def listNewFilePath(
+        self,
+        list_str_filepath_old,
+        list_char_ID_old, list_char_ID_new,
+        str_char_new, str_path_dir_output
+    ):
         '''
         This method creates the new file paths for all NR characters.
 
@@ -222,7 +279,9 @@ class Ui(QtWidgets.QMainWindow):
             created.
         '''
 
-        list_new_filename = []
+        list_new_filepath = []
+
+        list_updated_str_filepath_old = []
 
         str_temp = ''
 
@@ -232,7 +291,7 @@ class Ui(QtWidgets.QMainWindow):
 
             for j, k in zip(list_char_ID_old, list_char_ID_new):
 
-                if j in i:
+                if j in lib_func.strGetFilename(i):
 
                     str_temp = i.replace(j, k)
 
@@ -240,17 +299,22 @@ class Ui(QtWidgets.QMainWindow):
 
                     str_temp = os.path.join(
                         str_path_dir_output, str_char_new, 'parts', str_temp
-                        )
+                    )
 
-                    list_new_filename.append(str_temp)
+                    list_new_filepath.append(str_temp)
 
-        return list_new_filename
+                    list_updated_str_filepath_old.append(i)
 
+                else:
+
+                    pass
+
+        return list_updated_str_filepath_old, list_new_filepath
 
     def makeNewCharFile(
-            self,
-            list_str_path_file_char_old, list_str_path_file_char_new
-        ):
+        self,
+        list_str_path_file_char_old, list_str_path_file_char_new
+    ):
         '''
         This method creates the new character files.
 
@@ -282,12 +346,13 @@ class Ui(QtWidgets.QMainWindow):
         for i, j in zip(list_str_path_file_char_old, list_str_path_file_char_new):
 
             # Copy file
-            shutil.copy2(i, j)
+            shutil.copy(i, j)
 
             str_temp = 'Replicating 克隆中: ' + i + ' -> ' + j
 
             print(str_temp)
 
+            self.printLog(str_temp)
 
     def printLog(self, str_msg):
         '''
@@ -318,7 +383,6 @@ class Ui(QtWidgets.QMainWindow):
 
         QApplication.sendPostedEvents()
 
-
     def replicate(self):
         '''
         Main method that carries out the replication.
@@ -335,7 +399,8 @@ class Ui(QtWidgets.QMainWindow):
         # Check whether the path for the base character exist or not
         str_path_dir_base_char = self.le_path_dir_base_char.text()
 
-        bool_path_base_char = lib_func.boolPathExists(str_path_dir_base_char, True)
+        bool_path_base_char = lib_func.boolPathExists(
+            str_path_dir_base_char, True)
 
         if bool_path_base_char:
 
@@ -346,7 +411,7 @@ class Ui(QtWidgets.QMainWindow):
             self.printLog(
                 'Cannot find the folder for the base character! '
                 + '找不到模板角色的文件夹！'
-                )
+            )
 
             lib_func.msgError(
                 'Base character folder not found!',
@@ -359,7 +424,8 @@ class Ui(QtWidgets.QMainWindow):
         # Check whether the path for the output folder exist or not
         str_path_dir_output = self.le_dir_output.text()
 
-        bool_path_dir_output = lib_func.boolPathExists(str_path_dir_output, True)
+        bool_path_dir_output = lib_func.boolPathExists(
+            str_path_dir_output, True)
 
         if bool_path_dir_output:
 
@@ -382,7 +448,7 @@ class Ui(QtWidgets.QMainWindow):
 
         # Walk through all the subfolders to find all DCX files
         list_str_path_file_char_old = lib_func.listGetPathRecursive(
-            str_path_dir_base_char, '*.dcx'
+            str_path_dir_base_char, '*.partsbnd.dcx'
         )
 
         # Exit if no DCX found
@@ -393,23 +459,61 @@ class Ui(QtWidgets.QMainWindow):
             lib_func.msgError(
                 'ERROR',
                 'No DCX file is found! 没有找到任何DCX文件！'
-                )
+            )
 
             return
 
         else:
 
-            self.printLog('The following DCX files are found 已找到以下的DCX文件\n' +
-                      '\n'.join(list_str_path_file_char_old)
-                      )
+            # self.printLog('The following DCX files are found 已找到以下的DCX文件\n' +
+            #               '\n'.join(list_str_path_file_char_old)
+            #               )
+
+            pass
 
         self.printLog(
             'Replicating! Please do not close the program!'
             + '正在克隆！请勿关闭程序！'
+        )
+
+        if self.chk_all.isChecked():
+
+            list_key = []
+
+            list_key = list(DICT_CHAR.keys())
+
+        else:
+
+            list_key = []
+
+            list_chk_box = self.getCharChkbox()
+
+            for i in list_chk_box:
+
+                if i.isChecked():
+
+                    list_key.append(i.text())
+
+                else:
+
+                    pass
+
+        print('\n'.join(list_key))
+
+        if not list_key:
+
+            self.printLog('No output character selected! 没有选择任何的目标角色！')
+
+            lib_func.msgError(
+                'ERROR',
+                'No output character selected! 没有选择任何的目标角色！'
             )
 
+            return
+
         # The actual replication
-        for key in DICT_CHAR:
+        # for key in DICT_CHAR:
+        for key in list_key:
 
             list_str_path_char_new = []
 
@@ -417,7 +521,7 @@ class Ui(QtWidgets.QMainWindow):
             # checking the two radio buttons
             if self.rd_btn_output_dir_chn.isChecked():
 
-                list_str_path_char_new = self.listNewFilename(
+                list_str_path_file_char_old, list_str_path_char_new = self.listNewFilePath(
                     list_str_path_file_char_old,
                     DICT_CHAR[str_base_character], DICT_CHAR[key],
                     DICT_CHAR_NAME_CHN[key], str_path_dir_output
@@ -425,7 +529,7 @@ class Ui(QtWidgets.QMainWindow):
 
             else:
 
-                list_str_path_char_new = self.listNewFilename(
+                list_str_path_file_char_old, list_str_path_char_new = self.listNewFilePath(
                     list_str_path_file_char_old,
                     DICT_CHAR[str_base_character], DICT_CHAR[key],
                     DICT_CHAR_NAME_ENG[key], str_path_dir_output
@@ -439,7 +543,7 @@ class Ui(QtWidgets.QMainWindow):
                 lib_func.msgError(
                     'ERROR',
                     'Base character not matched! 模板角色不正确！'
-                    )
+                )
 
                 return
 
@@ -447,19 +551,21 @@ class Ui(QtWidgets.QMainWindow):
 
                 self.makeNewCharFile(
                     list_str_path_file_char_old, list_str_path_char_new
-                    )
+                )
 
                 # Update the progress bar
-                progress = list(DICT_CHAR.keys()).index(key) + 1
+                # progress = list(DICT_CHAR.keys()).index(key) + 1
+                progress = list_key.index(key) + 1
 
-                progress = progress / len(DICT_CHAR) * 100
+                progress = progress / len(list_key) * 100
 
                 self.progressBar.setValue(int(progress))
+
+                QApplication.sendPostedEvents()
 
         self.printLog('Done! 已完成！')
 
         lib_func.msgInfo('Done', 'Done! 已完成！')
-
 
 
 if __name__ == "__main__":
