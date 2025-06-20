@@ -23,9 +23,16 @@
 ## About The Project 项目简述
 
 A simple app that allows you to replicate Elden Ring Nightreign
-character skins from one character to others.
+character skins files from one character to others.
 
-一个简单的夜环角色皮肤克隆程序。你能用这个把一个角色的皮肤克隆到别的角色上。
+Note that all this app does is copying and renaming, you would still
+install the new files as mods yourself.
+
+一个简单的夜环角色皮肤克隆程序。你能用这个把一个角色的皮肤文件克隆到别的
+角色上。
+
+注意，此程序仅执行文件复制和重命名。若想要把新的文件安装成mod，你需要自
+己动手。
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
