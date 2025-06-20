@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>949</width>
-    <height>527</height>
+    <width>865</width>
+    <height>531</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -82,6 +82,9 @@
           <pointsize>10</pointsize>
          </font>
         </property>
+        <property name="toolTip">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The app does a recursive walk, so you only need to select the top level directory. 此程序会自动搜索所有的子文件夹，所以你选择顶层文件夹就可以了。&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
         <property name="text">
          <string>Browse 浏览</string>
         </property>
@@ -103,8 +106,11 @@
           <bold>false</bold>
          </font>
         </property>
+        <property name="toolTip">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The app does a recursive walk, so you only need to select the top level directory. 此程序会自动搜索所有的子文件夹，所以你选择顶层文件夹就可以了。&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
         <property name="text">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Base files folder 模板角色文件夹&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Base folder 模板角色文件夹&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
         <property name="textFormat">
          <enum>Qt::RichText</enum>
@@ -143,6 +149,9 @@
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
+        <property name="toolTip">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The app does a recursive walk, so you only need to select the top level directory. 此程序会自动搜索所有的子文件夹，所以你选择顶层文件夹就可以了。&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
         <property name="locale">
          <locale language="English" country="UnitedArabEmirates"/>
         </property>
@@ -174,7 +183,7 @@
          </font>
         </property>
         <property name="text">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Output files folder 输出文件夹&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Output folder 输出文件夹&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
         <property name="textFormat">
          <enum>Qt::RichText</enum>
