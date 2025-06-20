@@ -46,6 +46,10 @@ Download the EXE from the releases to run it.
 <!-- USAGE EXAMPLES -->
 ## Usage 操作指南
 
+<div align="center">
+ <img src="screenshot.png" alt="screenshot" width="400">
+</div>
+
 * Select the folder containing the `*.partbnd.dcx` files for the base
   character (whose skins that you want to replicate to other
   characters). The app does a recursive walk, so you only need to select
