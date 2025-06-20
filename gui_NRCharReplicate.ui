@@ -10,7 +10,7 @@
     <x>0</x>
     <y>0</y>
     <width>949</width>
-    <height>521</height>
+    <height>527</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -194,7 +194,7 @@
       <item>
        <widget class="QRadioButton" name="rd_btn_output_dir_eng">
         <property name="text">
-         <string>Output folder contains English Only</string>
+         <string>Output folder in English Only (to be created)</string>
         </property>
         <property name="checked">
          <bool>true</bool>
@@ -204,7 +204,7 @@
       <item>
        <widget class="QRadioButton" name="rd_btn_output_dir_chn">
         <property name="text">
-         <string>输出文件夹仅含中文</string>
+         <string>输出文件夹仅含中文（将创建）</string>
         </property>
         <property name="checked">
          <bool>false</bool>
