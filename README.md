@@ -47,7 +47,7 @@ Download the EXE from the releases to run it.
 ## Usage 操作指南
 
 <div align="center">
- <img src="screenshot.png" alt="screenshot" width="400">
+ <img src="screenshot.png" alt="screenshot" width="700">
 </div>
 
 * Select the folder containing the `*.partbnd.dcx` files for the base
